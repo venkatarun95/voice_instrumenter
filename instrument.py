@@ -29,14 +29,16 @@ class Instrument:
         prev, next, filter_pos = (0.0, 0.0), self.filter[0], 0
         for i in range(len(sound)):
             freq = temp_freqs[i]
+            if freq > 1500:
+                spectrum[i] = 0.0
 
-            while next[0] < freq:
-                filter_pos += 1
-                prev, next = next, self.filter[filter_pos]
-
-            scale = ((freq - prev[0]) * next[1] + (next[0] - freq) * prev[1]) \
-                / (next[0] - prev[0])
-            spectrum[i] *= scale
+            # while next[0] < freq:
+            #     filter_pos += 1
+            #     prev, next = next, self.filter[filter_pos]
+            #
+            # scale = ((freq - prev[0]) * next[1] + (next[0] - freq) * prev[1]) \
+            #     / (next[0] - prev[0])
+            # spectrum[i] *= scale
 
 
         sound = scipy.fftpack.irfft(spectrum)
